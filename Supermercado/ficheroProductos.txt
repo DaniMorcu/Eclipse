@@ -1,0 +1,6 @@
+1;patatas;20.0
+2;manzanas;30.0
+3;platanos;40.0
+4;MELON;2.0
+5;sandias;60.0
+6;kiwis;80.0
