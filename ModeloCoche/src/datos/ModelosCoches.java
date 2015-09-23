@@ -6,28 +6,41 @@ public class ModelosCoches {
 
 	private ArrayList<ModeloCoche> coches = new ArrayList<>();
 	
-	public void insertar(ModeloCoche m)
+	public ModelosCoches()
 	{
-		coches.add(m);
+		coches = new ArrayList<>();
+	}
+
+	public void insertar(ModeloCoche mc)
+	{
+		coches.add(mc);
 	}
 	
-	public void borrar(String modelo)
+	public boolean actualizar(ModeloCoche mcOld, ModeloCoche mcNew)
 	{
-		if(coches.contains(coches))
+		boolean resultado = false;
+		if(coches.contains(mcOld))
 		{
-			coches.remove(modelo);
+			coches.set(coches.indexOf(mcOld), mcNew);
+			resultado = true;			
 		}
-		else
-			System.out.println("No se encontró el vehículo.");
+		
+		return resultado;
 	}
 	
-	public void actualizar(String modelo)
+	public boolean borrar(ModeloCoche mc)
 	{
-		if(coches.contains(modelo))
-		{
-			System.out.println("Nuevo año: ");
-			ModeloCoche
+		return coches.remove(mc);
+	}
+	
+	public void listar()
+	{
+		int cuantos = 0;
+		System.out.println("Listado: ");
+		for (ModeloCoche modeloCoches: coches) {
 			
 		}
 	}
+	
+
 }

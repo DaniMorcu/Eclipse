@@ -25,6 +25,13 @@ public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		ModelosCoches mc = new ModelosCoches();
+		
+		ModeloCoche m1 = new ModeloCoche(2015, 180, 180000, "n1", "m1");
+		ModeloCoche m2 = new ModeloCoche(2014, 160, 180000, "n2", "m2");
+		ModeloCoche m3 = new ModeloCoche(2012, 170, 180000, "n3", "m3");
+		
+		mc.
 	}
 
 }
