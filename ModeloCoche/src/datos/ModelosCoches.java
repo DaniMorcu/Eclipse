@@ -1,10 +1,14 @@
 package datos;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelosCoches {
 
-	private ArrayList<ModeloCoche> coches = new ArrayList<>();
+	private ArrayList<ModeloCoche> coches;
 	
 	public ModelosCoches()
 	{
@@ -33,14 +37,45 @@ public class ModelosCoches {
 		return coches.remove(mc);
 	}
 	
-	public void listar()
-	{
+	public void listar() {
 		int cuantos = 0;
-		System.out.println("Listado: ");
-		for (ModeloCoche modeloCoches: coches) {
-			
+		System.out.println("--- LISTADO ---");
+		for (ModeloCoche modeloCoche : coches) {
+			System.out.println(modeloCoche);
+			cuantos++;
 		}
+		System.out.println("Nº de Coches: " + cuantos);
+		System.out.println("---------------");
 	}
 	
+	public void generarFichero(String nombFich) {
+		File fichero = new File(nombFich);
+
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+
+		try {
+			fw = new FileWriter(fichero);
+			bw = new BufferedWriter(fw);
+
+			for (ModeloCoche modeloCoche : coches) {
+				bw.write(modeloCoche.getAnyo() + " " + modeloCoche.getMarca() + " " + modeloCoche.getNombre() + " "
+						+ modeloCoche.getPrecio() + " " + modeloCoche.getVelocidad());
+				bw.newLine();
+				bw.flush();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				bw.close();
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

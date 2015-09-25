@@ -31,7 +31,32 @@ public class Principal {
 		ModeloCoche m2 = new ModeloCoche(2014, 160, 180000, "n2", "m2");
 		ModeloCoche m3 = new ModeloCoche(2012, 170, 180000, "n3", "m3");
 		
-		mc.
+		
+		mc.insertar(m1);
+		mc.insertar(m2);
+		mc.insertar(m3);
+		
+		mc.listar();
+		
+		ModeloCoche m22 = m2;
+		m22.setAnyo(2000);
+		if (mc.actualizar(m2, m22)) {
+			System.out.println("Actualizado");
+		} else {
+			System.out.println("NO Actualizado");
+		}
+		
+		mc.listar();
+		
+		if (mc.borrar(m3)) {
+			System.out.println("Borrado");
+		} else {
+			System.out.println("NO Borrado");
+		}
+		
+		mc.listar();
+		
+		mc.generarFichero("modeloscoches.txt");
 	}
 
 }
