@@ -29,15 +29,20 @@ public class Principal {
 		// TODO Auto-generated method stub
 		Alumnos listaAlumnos = new Alumnos();
 		
-		Alumno a1 = new Alumno("a1", "ap1", 15, 6);
-		Alumno a2 = new Alumno("a2", "ap2", 14, 8);
-		Alumno a3 = new Alumno("a3", "ap3", 17, 7);
+		Alumno a1 = new Alumno("a1", "ap1", 15, 6.5F);	//	Usamos la F para que que distinga que es un Float
+		Alumno a2 = new Alumno("a2", "ap2", 14, 8.8F);
+		Alumno a3 = new Alumno("a3", "ap3", 17, 7.9F);
 		
-		listaAlumnos.anadirAlumno(a1);
-		listaAlumnos.anadirAlumno(a2);
-		listaAlumnos.anadirAlumno(a3);
+		listaAlumnos.anadir(a1);
+		listaAlumnos.anadir(a2);
+		listaAlumnos.anadir(a3);
 
-		listaAlumnos.buscaPorNombre("a1");
+		System.out.println("Buscar por nombre: " + listaAlumnos.buscaPorNombre("a1"));
+		System.out.println("Buscar por Apellidos: " + listaAlumnos.buscaPorApellidos("ap2"));
+		System.out.println("Buscar por Edad: " + listaAlumnos.buscaPorEdad(14));
+		System.out.println("Buscar por Nota: " + listaAlumnos.buscaPorNota(7.9F));
+		
+		System.out.println("Buscar por Patron: " + listaAlumnos.buscarPatron("14"));
 		
 	}
 
