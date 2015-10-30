@@ -8,8 +8,18 @@ import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Sorts.*;
+import static com.mongodb.client.model.Updates.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.spi.DirStateFactory.Result;
+import javax.swing.text.html.BlockView;
 
 public class GestoBD {
 
@@ -60,7 +70,59 @@ public class GestoBD {
 
 	public static void contarMayor20() {
 
-		coleccion.count();
+		System.out.println("Numero de libros mayor que 20€: " + coleccion.count(gt("otras caracteristicas.precio", 20)));
 	}
+
+	public static void librosConWeb() {
+		Block<Document> printBlock = new Block<Document>() {
+			
+			public void apply(Document doc) {
+				System.out.println(doc);
+			}
+		};
+		
+		coleccion.find(exists("otras caracteristicas.web de referencia")).forEach(printBlock);
+	}
+
+	public static void librosOrdenadosPorPrecio() {
+
+		// Cada vez que hacemos un SELECT * FROM .... hacemos un block
+		
+		Block<Document> printBlock = new Block<Document>() {
+			
+			public void apply(Document doc) {
+				System.out.println(doc);
+			}
+		};
+		
+		coleccion.find().sort(ascending("otras caracteristicas.precio")).forEach(printBlock);
+	}
+
+	public static void incrementarPrecio() {
+
+		
+		// REVISAR
+//		UpdateResult resultado = coleccion.updateMany(or(eq("anyo publicacion", 2010),
+//				eq("anyo publicacion", 2012), 
+//				eq("anyo publicacion", 2014), 
+//				inc("otras catacteristicas.precio", 2)));
+//			
+//		System.out.println("Numero de libros incrementados: " + resultado.getModifiedCount());
+		
+//		List<Integer> lista = new ArrayList<Integer>();
+//		lista.add(2010);
+//		lista.add(2012);
+//		lista.add(2014);
+		//...
+	}
+
+	public static void borradoPrecioPaginaCero() {
+
+		DeleteResult resultado =  coleccion.deleteMany(or(eq("otras caracteristicas.precio", 0), 
+				eq("numero de paginas", 0)));
+		System.out.println("Libros borrados: " + resultado.getDeletedCount());
+	}
+
+
 
 }

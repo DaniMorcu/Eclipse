@@ -9,6 +9,11 @@ public class App {
 		GestoBD.conexionBD();
 		GestoBD.crearColeccion();
 
+//		GestoBD.anyadirLibro(new Libro("pesadillas", 150, "Anaya", 1999, "www.tutu.com", 10));
+//		GestoBD.anyadirLibro(new Libro("pesadillas8", 150, "Anaya", 2015, "www.qw.com", 10));
+//		GestoBD.anyadirLibro(new Libro("tombi", 150, "Anaya", 1988, "www.rt.com", 10));
+//		GestoBD.anyadirLibro(new Libro("anas", 150, "Werbr", 2001, "www.as.com", 10));
+		
 		int opcion = 0;
 		do {
 			opcion = menu();
@@ -45,20 +50,20 @@ public class App {
 					GestoBD.contarMayor20();
 					break;
 				case 4:
-
+					GestoBD.librosConWeb();
 					break;
 				default:
 					break;
 				}
 				break;
 			case 3:
-
+				GestoBD.librosOrdenadosPorPrecio();
 				break;
 			case 4:
-
+				GestoBD.incrementarPrecio();
 				break;
 			case 5:
-
+				GestoBD.borradoPrecioPaginaCero();
 				break;
 
 			default:
@@ -73,11 +78,11 @@ public class App {
 
 	public static int menu() {
 		int opcion = 0;
-
+		System.out.println("---- MENU ----");
 		System.out.println("1. Añadir libro");
 		System.out.println("2. Buscar libro");
 		System.out.println("3. Libros ordenados por precio");
-		System.out.println("4. Incrementar precio");
+		System.out.println("4. Incrementar precio (años 2010, 2014, 2014)");
 		System.out.println("5. Borrar libro");
 		;
 		System.out.println("0. Salir");
@@ -88,6 +93,7 @@ public class App {
 	public static int menu2() {
 		int opcion = 0;
 
+		System.out.println("---- MENU 2 ----");
 		System.out.println("1. Primer libro con numero de páginas > 200 y año de publicacion = 2014");
 		System.out.println("2. Todos los libros de Anaya");
 		System.out.println("3. Contar todos los libros precio > 20");
