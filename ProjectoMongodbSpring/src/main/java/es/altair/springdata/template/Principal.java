@@ -7,32 +7,20 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.xml.transform.SourceLocator;
-
-import org.hibernate.sql.Update;
-import org.mariadb.jdbc.internal.common.queryresults.UpdateResult;
-import org.neo4j.cypher.internal.compiler.v2_1.ast.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.stereotype.Component;
-
-import com.mongodb.WriteResult;
 
 import es.altair.springdata.config.MongoConfig;
 import es.altair.springdata.domain.Jugador;
 import es.altair.springdata.domain.Reserva;
-import es.altair.springdata.repository.JugadorRepository;
 import es.altair.springdata.repository.ReservaRepository;
-import net.wimpi.telnetd.io.terminal.ansi;
-import scala.collection.immutable.TreeSet;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Criteria.*;
-import static org.springframework.data.mongodb.core.query.Update.*;
+
 @Component
 public class Principal {
 
@@ -127,14 +115,35 @@ public class Principal {
 				}
 				System.out.println("La suma total es " + sumaPrecios + " Euros");
 				break;
-			case 9:	//	Actualizar RESERVAS y HUELVA y AÑO INSCRIPCION < 2008 para PRECIO 50% DESCUENTO
-//				mongoOperations.updateMulti(query(where("jugador.ciudad").is("Huelva")).addCriteria(query(where("jugador.anyo de inscripcion").lt(2008))), new org.springframework.data.mongodb.core.query.Update().multiply("precio", 0.5d), Reserva.class);
-//				WriteResult result =  mongoOperations.updateMulti(query(where("jugador.ciudad").is("Huelva")).addCriteria((CriteriaDefinition) query(where("jugador.anyo de inscripcion").lt(2008))), new org.springframework.data.mongodb.core.query.Update().multiply("precio",	0.5d), Reserva.class);
-//				System.out.println("Colecciones actualizadas: " + result.getN());
-				// mongoOperations.count(query(where("jugador.ciudad").is(ciudad)), Reserva.class)
+			case 9:	//	Actualizar RESERVAS y HUELVA y AÑO INSCRIPCION < 2008 para PRECIO 50% DESCUENTO	
+				Query query1 = new Query();
+				query1.addCriteria(where("jugador.ciudad").is("Huelva"));
+				query1.addCriteria(where("jugador.anyo de inscripcion").lt(2008));
+				mongoOperations.updateMulti(query1, new org.springframework.data.mongodb.core.query.Update().multiply("precio",	0.5d) , Reserva.class);
+				System.out.println("Base de datos actualizada con los descuentos.");
 				break;
 			case 10:	//	BORRAR RESERVAS PAGADAS y ANTERIORES A ESTE AÑO
+				Date dateHoy = new Date(); // Hoy
+			    Calendar cal = Calendar.getInstance();
+			    cal.setTime(dateHoy);
+			    
+			    //	Obtenemos el año actual
+			    int anyo = cal.get(Calendar.YEAR);
+			    System.out.println("Año ACTUAL : " + anyo);
+			    
+			    //	Calentadario para comparar
+			    Calendar compareCal = null;
+			    compareCal = GregorianCalendar.getInstance();
+			    // Establecemos el 1 de Enero del año Actual
+			    compareCal.set(anyo, 0, 1);
+			    
+			    //	Lo convertimos en Date para trabajar con el
+			    Date dateComp = compareCal.getTime();
 				
+				Query query2 = new Query();
+				query2.addCriteria(where("esPagada").in(Boolean.TRUE));
+				query2.addCriteria(where("fecha").lt(dateComp));
+				mongoOperations.remove(query2, Reserva.class);
 				break;
 			default:
 				System.out.println("Opción incorrecta. Teclee un número entre 0 y 10");
@@ -167,12 +176,28 @@ public class Principal {
     	Double precio = sc.nextDouble();
     	
     	System.out.println("-- PAGADO --");
-    	System.out.print("¿Está pagado ya la reserva? [True/False]: ");
-    	Boolean estaPagado = sc.nextBoolean();
+    	System.out.print("¿Está pagado ya la reserva? [Si/No]: ");
+    	Boolean estaPagado = obtenerSiNo();
 		
     	return  new Reserva(fecha, precio, estaPagado);
 	}
 	
+	private static Boolean obtenerSiNo() {
+		Boolean esPagada = null;
+
+		do {
+			String resp = sc.next();
+			if(resp.toLowerCase().equals("si") || resp.toLowerCase().equals("s"))
+				return esPagada = true;
+			else if(resp.toLowerCase().equals("no") || resp.toLowerCase().equals("n"))
+				return esPagada = false;
+			else{
+				System.out.print("Repita de nuevo (Si/No): ");
+			}
+		} while (esPagada == null);
+		return esPagada;
+	}
+
 	private static Jugador solicitarDatosJugador(){
 		
 		System.out.println("-- DATOS PERSONALES DEL JUGADOR --");
@@ -287,6 +312,7 @@ public class Principal {
     	Reserva ryj5 = new Reserva(r5, j5);
     	Reserva ryj6 = new Reserva(r6, j6);
     	Reserva ryj7 = new Reserva(r7, j7);
+    	Reserva ryj8 = new Reserva(r8, j8);
     	
     	mongoOperations.insert(ryj1);
     	mongoOperations.insert(ryj2);
@@ -295,6 +321,7 @@ public class Principal {
     	mongoOperations.insert(ryj5);
     	mongoOperations.insert(ryj6);
     	mongoOperations.insert(ryj7);
+    	mongoOperations.insert(ryj8);
 
 	}
 }

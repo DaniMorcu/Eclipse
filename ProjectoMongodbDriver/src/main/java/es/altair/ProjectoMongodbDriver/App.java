@@ -91,10 +91,28 @@ public class App
     	
     	System.out.println("-- PAGADO --");
     	System.out.print("¿Está pagado ya la reserva? [True/False]: ");
-    	Boolean estaPagado = sc.nextBoolean();
+    	Boolean estaPagado = obtenerSiNo();
 		
     	return  new Reserva(fecha, precio, estaPagado);
 	}
+	
+	private static Boolean obtenerSiNo() {
+		Boolean esPagada = null;
+
+		do {
+			String resp = sc.next();
+			if(resp.toLowerCase().equals("si") || resp.toLowerCase().equals("s"))
+				return esPagada = true;
+			else if(resp.toLowerCase().equals("no") || resp.toLowerCase().equals("n"))
+				return esPagada = false;
+			else{
+				System.out.print("Repita de nuevo (Si/No): ");
+			}
+		} while (esPagada == null);
+		return esPagada;
+	}
+
+
 	
 	private static Jugador solicitarDatosJugador(){
 		
