@@ -90,7 +90,7 @@ public class App
     	Double precio = sc.nextDouble();
     	
     	System.out.println("-- PAGADO --");
-    	System.out.print("¿Está pagado ya la reserva? [True/False]: ");
+    	System.out.print("¿Está pagado ya la reserva? [Si/No]: ");
     	Boolean estaPagado = obtenerSiNo();
 		
     	return  new Reserva(fecha, precio, estaPagado);
@@ -100,7 +100,7 @@ public class App
 		Boolean esPagada = null;
 
 		do {
-			String resp = sc.next();
+			String resp = sc.next();									// es una S
 			if(resp.toLowerCase().equals("si") || resp.toLowerCase().equals("s"))
 				return esPagada = true;
 			else if(resp.toLowerCase().equals("no") || resp.toLowerCase().equals("n"))
@@ -112,8 +112,6 @@ public class App
 		return esPagada;
 	}
 
-
-	
 	private static Jugador solicitarDatosJugador(){
 		
 		System.out.println("-- DATOS PERSONALES DEL JUGADOR --");
@@ -134,6 +132,9 @@ public class App
 	private static Date pedirFecha(){
     	Calendar fechaNueva = null;
     	Date fechaDate = null;
+    	Integer hora = 12;
+    	Integer minuto = 00;
+    	
 		do{
     		System.out.println("-- AÑADIR NUEVA RESERVA --");
         	System.out.println("-- FECHA --");
@@ -142,16 +143,26 @@ public class App
         	System.out.print("Mes [1-12]: ");
         	Integer mes = obtenerEntero(1, 12);
         	System.out.print("Año [2000-2020]: ");
-        	Integer anyo = obtenerEntero(1999, 2021);   
+        	Integer anyo = obtenerEntero(2000, 2020);  
+        	
+        	System.out.print("¿Hora personalizada (En caso negativo se pondrá las 12:00)? [Si/No]: ");
+        	Boolean eshora = obtenerSiNo();     	
+        	if(eshora){
+            	System.out.print("Hora [0-23]: ");
+            	hora = obtenerEntero(0, 23);
+            	System.out.println("Minutos [0-59]");
+            	minuto = obtenerEntero(0, 59);
+        	}
+        	
         	try{        	  	
         		fechaNueva = GregorianCalendar.getInstance();
-        		fechaNueva.set(anyo, mes - 1, dia);
+        		fechaNueva.set(anyo, mes - 1, dia, hora, minuto);
         	}catch (Exception e){
         		System.out.println(e);
         	}        	
     	}while(fechaNueva == null);
 		
-		SimpleDateFormat formatearDate = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatearDate = new SimpleDateFormat("dd/MM/yyyy 'a las' HH:mm");
 	    System.out.println("Fecha final: " + formatearDate.format(fechaNueva.getTime()));
 		
 		//	Convertimos el calendar en Date para poder trabajar con la base de datos Mongo
@@ -159,7 +170,7 @@ public class App
 	}
 	
 	private static Integer obtenerEntero(int min, int max) {
-		Integer dia = 0;
+		Integer dia = -1;
 		while (dia<min || dia >max) {	
 			dia = sc.nextInt();
 			if(dia<min || dia >max)
@@ -195,6 +206,8 @@ public class App
 		Calendar c8 = null;
     	c8 = GregorianCalendar.getInstance();
 		c8.set(2014, 2, 9);
+		
+		c8.set(2015, 2, 9, 10, 15);
 		
 		Date date1 = c1.getTime();
 		Date date2 = c2.getTime();

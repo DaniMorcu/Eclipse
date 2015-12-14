@@ -186,7 +186,7 @@ public class Principal {
 		Boolean esPagada = null;
 
 		do {
-			String resp = sc.next();
+			String resp = sc.next();									// es una s
 			if(resp.toLowerCase().equals("si") || resp.toLowerCase().equals("s"))
 				return esPagada = true;
 			else if(resp.toLowerCase().equals("no") || resp.toLowerCase().equals("n"))
@@ -218,6 +218,8 @@ public class Principal {
 	private static Date pedirFecha(){
     	Calendar fechaNueva = null;
     	Date fechaDate = null;
+    	Integer hora = 12;
+    	Integer minuto = 00;
 		do{
     		System.out.println("-- AÑADIR NUEVA RESERVA --");
         	System.out.println("-- FECHA --");
@@ -226,16 +228,27 @@ public class Principal {
         	System.out.print("Mes [1-12]: ");
         	Integer mes = obtenerEntero(1, 12);
         	System.out.print("Año [2000-2020]: ");
-        	Integer anyo = obtenerEntero(1999, 2021);   
+        	Integer anyo = obtenerEntero(2000, 2020);  
+        	
+        	//	Funcion de hora personalizada no me funciona (en Eclipse si) siendo el mismo método que en el otro projecto
+        	System.out.print("¿Hora personalizada (En caso negativo se pondrá las 12:00)? [Si/No]: ");
+        	Boolean eshora = obtenerSiNo();     	
+        	if(eshora){
+            	System.out.print("Hora [0-23]: ");
+            	hora = obtenerEntero(0, 23);
+            	System.out.println("Minutos [0-59]");
+            	minuto = obtenerEntero(0, 59);
+        	}
+        	
         	try{        	  	
         		fechaNueva = GregorianCalendar.getInstance();
-        		fechaNueva.set(anyo, mes - 1, dia);
+        		fechaNueva.set(anyo, mes - 1, dia, hora, minuto);
         	}catch (Exception e){
         		System.out.println(e);
         	}        	
     	}while(fechaNueva == null);
 		
-		SimpleDateFormat formatearDate = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatearDate = new SimpleDateFormat("dd/MM/yyyy 'a las' HH:mm");
 	    System.out.println("Fecha final: " + formatearDate.format(fechaNueva.getTime()));
 		
 		//	Convertimos el calendar en Date para poder trabajar con la base de datos Mongo
