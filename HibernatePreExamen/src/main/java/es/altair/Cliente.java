@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="cliente")
-public class Cliente implements Serializable{
+public class Cliente implements Serializable {
 
 	@Id
 	private int idCliente;
@@ -30,6 +30,7 @@ public class Cliente implements Serializable{
 
 	public Cliente() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public Cliente(String login, String pass, String nombre, int telefono, String direccion) {
@@ -100,9 +101,6 @@ public class Cliente implements Serializable{
 	@Override
 	public String toString() {
 		return "Cliente [idCliente=" + idCliente + ", login=" + login + ", pass=" + pass + ", nombre=" + nombre
-				+ ", telefono=" + telefono + ", direccion=" + direccion + ", compras=" + compras + "]";
+				+ ", telefono=" + telefono + ", direccion=" + direccion + "]";
 	}
-	
-	
-	
 }

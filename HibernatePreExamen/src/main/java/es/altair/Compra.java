@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="compra")
-public class Compra implements Serializable{
+public class Compra implements Serializable {
 
 	@Id
 	private int idCompra;
@@ -21,23 +21,20 @@ public class Compra implements Serializable{
 	private String hora;
 	
 	@ManyToOne
-	@JoinColumn(name="id_Cliente")	// El nombre del campo del FK de la bbdd
+	@JoinColumn(name="id_Cliente")
 	private Cliente cliente;
 	
 	@ManyToOne
 	@JoinColumn(name="id_Cajera")
 	private Cajera cajera;
 	
-	
-	//	Relacion NM entre compra y producto y que usaremos para la tabla intermedia
-	@ManyToMany(mappedBy="compras")	//	Como en la relacion de NM ya está mapeado en producto, le comentamos el set que ya tiene el mapeo
+	@ManyToMany(mappedBy="compras")
 	private Set<Producto> productos = new HashSet<Producto>();
-
 
 	public Compra() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-
 
 	public Compra(String fecha, String hora, Cliente cliente, Cajera cajera) {
 		super();
@@ -47,72 +44,57 @@ public class Compra implements Serializable{
 		this.cajera = cajera;
 	}
 
-
 	public int getIdCompra() {
 		return idCompra;
 	}
-
 
 	public void setIdCompra(int idCompra) {
 		this.idCompra = idCompra;
 	}
 
-
 	public String getFecha() {
 		return fecha;
 	}
-
 
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 
-
 	public String getHora() {
 		return hora;
 	}
-
 
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
 
-
 	public Cliente getCliente() {
 		return cliente;
 	}
-
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
-
 	public Cajera getCajera() {
 		return cajera;
 	}
-
 
 	public void setCajera(Cajera cajera) {
 		this.cajera = cajera;
 	}
 
-
 	public Set<Producto> getProductos() {
 		return productos;
 	}
 
-
 	public void setProductos(Set<Producto> productos) {
 		this.productos = productos;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Compra [idCompra=" + idCompra + ", fecha=" + fecha + ", hora=" + hora + ", cliente=" + cliente
 				+ ", cajera=" + cajera + ", productos=" + productos + "]";
 	}
-	
-	
 }

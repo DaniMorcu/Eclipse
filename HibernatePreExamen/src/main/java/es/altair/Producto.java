@@ -12,25 +12,25 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="producto")
+@Table(name = "producto")
 public class Producto implements Serializable {
 
 	@Id
 	private int idProducto;
-	
 	private String nombre;
-	private Double precio;
-	
-	//	Relacion NM
+	private double precio;
+
 	@ManyToMany
-	@JoinTable(name="productocompra", joinColumns={@JoinColumn(name="id_Producto")}, inverseJoinColumns = {@JoinColumn(name = "id_Compra")})
+	@JoinTable(name = "productocompra", joinColumns = { @JoinColumn(name = "id_Producto") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_Compra") })
 	private Set<Compra> compras = new HashSet<Compra>();
 
 	public Producto() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public Producto(String nombre, Double precio) {
+	public Producto(String nombre, double precio) {
 		super();
 		this.nombre = nombre;
 		this.precio = precio;
@@ -52,11 +52,11 @@ public class Producto implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Double getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(Double precio) {
+	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
 
@@ -73,6 +73,4 @@ public class Producto implements Serializable {
 		return "Producto [idProducto=" + idProducto + ", nombre=" + nombre + ", precio=" + precio + ", compras="
 				+ compras + "]";
 	}
-	
-	
 }

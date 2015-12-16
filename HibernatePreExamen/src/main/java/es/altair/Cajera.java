@@ -12,26 +12,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="cajera")
-public class Cajera implements Serializable{
+public class Cajera implements Serializable {
 
 	@Id
 	private int idCajera;
-	
 	private String nombre;
 	private int numCaja;
 	
-	//	Una cajera tiene muchas compras por lo que creamos una lista con las compras
 	@OneToMany
 	@JoinColumn(name="idCajera")
-	@OrderColumn(name="idl")	//	Para establecer un orden de la lista de la compra y guardarla en el campo de idl de la bbdd
+	@OrderColumn(name="idl")
 	private List<Compra> compras;
 
-	
-	
 	public Cajera() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Cajera(String nombre, int numCaja) {
 		super();
 		this.nombre = nombre;
@@ -69,8 +66,12 @@ public class Cajera implements Serializable{
 	public void setCompras(List<Compra> compras) {
 		this.compras = compras;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Cajera [idCajera=" + idCajera + ", nombre=" + nombre + ", numCaja=" + numCaja + "]";
+	}
+
+
 	
 }
